@@ -1,47 +1,21 @@
-from flask import Flask, render_template
+from flask import Flask
 from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy  # Для работы записи в бд включить
 
 from config import Config
-from models import db, Client, Dish, Category, Order, dish_categories_association, order_dish_association
+
+# from models import db, Category, Client, Dish, Order   #для запуска миграций нужно включить
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
-db.init_app(app)
+
+# db.init_app(app)   #для запуска миграций нужно включить
+db = SQLAlchemy(app)    # для работы записи в бд включить
+
 migrate = Migrate(app, db)
 
-# __________________________________________
-# from views import *
-@app.route('/')
-def home():
-    return render_template('main.html')
+from views import *
 
-@app.route('/cart/')
-def cart():
-    return render_template('cart.html')
-
-@app.route('/account/')
-def account():
-    return render_template('account.html')
-
-@app.route('/login/')
-def login():
-    return render_template('login.html')
-
-@app.route('/logout/')
-def logout():
-    return render_template('login.html')
-
-@app.route('/register/')
-def register():
-    return render_template('register.html')
-
-@app.route('/ordered/')
-def ordered():
-    return render_template('ordered.html')
-# __________________________________________
-
-"""
-if __name__ == 'main':
+if __name__ == '__main__':
     app.run()
-"""
-app.run()

@@ -2,15 +2,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-dish_categories_association = db.Table('dish_categories',
-                                       db.Column('dish_id', db.Integer, db.ForeignKey('dishes.id')),
-                                       db.Column('categories_id', db.Integer, db.ForeignKey('categories.id')),
-                                       )
-order_dish_association = db.Table('order_dish',
-                                  db.Column('order_id', db.Integer, db.ForeignKey('orders.id')),
-                                  db.Column('dish_id', db.Integer, db.ForeignKey('dishes.id')),
-                                  )
-
+order_dish = db.Table('order_dishes',
+                      db.Column('order_id',db.Integer, db.ForeignKey('orders.id')),
+                      db.Column('dish_id', db.Integer, db.ForeignKey('dishes.id'))
+                      )
 
 class Client(db.Model):
     __tablename__ = 'clients'
@@ -27,15 +22,16 @@ class Dish(db.Model):
     price = db.Column(db.Integer, nullable=False)
     description = db.Column(db.Text)
     picture = db.Column(db.String(200))
-    category = db.relationship('Category', secondary=dish_categories_association, back_populates='dishes')
-    order = db.relationship('Order', secondary=order_dish_association, back_populates='dishes')
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+    category = db.relationship('Category')
+    orders = db.relationship('Order', secondary=order_dish, back_populates='dishes')
 
 
 class Category(db.Model):
     __tablename__ = 'categories'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    dishes = db.relationship('Dish', secondary=dish_categories_association, back_populates='categories')
+    dishes = db.relationship('Dish')
 
 
 class Order(db.Model):
@@ -48,5 +44,6 @@ class Order(db.Model):
     phone = db.Column(db.String(15))
     address = db.Column(db.String(50))
     client_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
+    dish_id = db.Column(db.Integer, db.ForeignKey('dishes.id'))
     client = db.relationship('Client')
-    dish = db.relation('Dish', secondary=dish_categories_association, back_populates='orders')
+    dishes = db.relation('Dish', secondary=order_dish, back_populates='orders')
