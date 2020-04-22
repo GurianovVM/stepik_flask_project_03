@@ -8,7 +8,7 @@
         <h2 class="h3">Прилетит к вам сама</h2>
         <p class="pt-4">Доставка дронами</p>
       </div>
-    </section>
+    </section><!--
       {% for cat in category %}
       <section>
       <h3 class="my-4">{{ cat.name }}</h3>
@@ -24,6 +24,29 @@
             </div>
           </div>
         </div>
+        {% endfor %}
+        </section>
+      {% endfor %}
+      -->
+    {% for cat in category %}
+      <section>
+      <h3 class="my-4">{{ cat.name }}</h3>
+      <div class="row mt-4">
+        {% for dish_list in dishes.values() %}
+        {% for dish in dish_list %}
+        {% if dish.category_id == cat.id %}
+          <div class="col-12 col-md-4">
+          <div class="card mb-3">
+            <img src="/static/pictures/{{ dish.picture }}" class="card-img-top" alt="">
+            <div class="card-body">
+              <h4 class="h5 card-title">{{ dish.title }}</h4>
+              <p class="card-text">{{ dish.description }}</p>
+              <a href="/addtocart1/" btn btn-danger">В корзину</a>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
         {% endfor %}
         </section>
       {% endfor %}

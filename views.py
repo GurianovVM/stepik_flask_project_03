@@ -5,13 +5,19 @@ from models import Category, Dish
 
 @app.route('/')
 def home():
+    ''' WORKING
     category = db.session.query(Category).all()
     dish_list = []
     for cat in category:
         dish = db.session.query(Dish).filter(Dish.category_id == cat.id).limit(3)
         dish_list.append(dish)
     return render_template('index.html', category=category, dishes=dish_list)
-
+    '''
+    category = db.session.query(Category).all()
+    dish_dict = {}
+    for cat in category:
+        dish_dict[cat.id] = db.session.query(Dish).filter(Dish.category_id == cat.id).limit(3)
+    return render_template('index.html', category=category, dishes=dish_dict)
 
 @app.route('/cart/')
 def cart():
