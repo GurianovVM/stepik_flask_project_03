@@ -2,7 +2,7 @@
 import csv
 from app import db
 from models import Dish, Category
-
+'''
 with open('Данные для проекта 4 - meals.csv', 'r') as f:
     read = csv.DictReader(f)
     print('Открыли файл с блюдами')
@@ -24,4 +24,3 @@ with open('Данные для проекта 4 - categories.csv', 'r') as f:
         print('Добавили блюдо' + i['title'])
     db.session.commit()
     print('Добавили в базу')
-'''

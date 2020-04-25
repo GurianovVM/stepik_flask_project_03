@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="ru">
-
-<head>
-  <title>Stepik Delivery</title>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
-
-<body>
-  <main class="container">
+{% extends 'base.html' %}
+{% block header %}{% endblock %}
+{% block conteiner %}
     <div class="row">
       <div class="col-8 col-lg-4 offset-2 offset-lg-4">
         <form class="form-signin pt-5">
@@ -17,21 +9,28 @@
             <h1 class="h3 mb-3 font-weight-normal">Stepik delivery</h1>
             <p class="h5 font-weight-light">Войдите, чтобы управлять</p>
           </div>
+          <form method="POST" action="{{ url_for('cart') }}">
+          {{ form.csrf_token }}
           <div class="mt-5 form-label-group">
-            <p class="text-muted">Электропочта</p>
-            <input type="email" id="inputEmail" class="form-control" required autofocus>
-            <label for="inputEmail"></label>
+            {{ form.email.label(class_="text-muted") }}
+            {% for err in form.email.errors %}
+              <p class="text-danger">er</p>
+            {% endfor %}
+            {{ form.email(class_="form-control",autofocus=true, required=true) }}
           </div>
           <div class="form-label-group">
-            <p class="text-muted"> Пароль</p>
-            <input type="password" id="inputPassword" class="form-control" required>
-            <label for="inputPassword"></label>
+            {{ form.password.label(class_="text-muted") }}
+            {% for err in form.password.errors %}
+              <p class="text-danger">{{ err }}</p>
+            {% endfor %}
+            {{ form.password(class_="form-control", required=true) }}
           </div>
           <div class="checkbox mb-3"></div>
-          <button class="btn btn-lg btn-danger btn-block" type="submit">Войти</button>
+            {% if message %}{{ message }}{% endif %}
+            {{ form.submit(class_="btn btn-lg btn-danger btn-block") }}
         </form>
       </div>
     </div>
   </main>
-</body>
-</html>
+{% endblock %}
+{% block footer %}{% endblock %}

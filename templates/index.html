@@ -1,4 +1,4 @@
-{% extends 'base-nav.html' %}
+{% extends 'base.html' %}
 {% block conteiner %}
   <main class="container mt-3">
     <section class="my-5 jumbotron jumbotron-fluid">
@@ -8,26 +8,7 @@
         <h2 class="h3">Прилетит к вам сама</h2>
         <p class="pt-4">Доставка дронами</p>
       </div>
-    </section><!--
-      {% for cat in category %}
-      <section>
-      <h3 class="my-4">{{ cat.name }}</h3>
-      <div class="row mt-4">
-        {% for dish in dishes[cat.id-1] %}
-          <div class="col-12 col-md-4">
-          <div class="card mb-3">
-            <img src="/static/pictures/{{ dish.picture }}" class="card-img-top" alt="">
-            <div class="card-body">
-              <h4 class="h5 card-title">{{ dish.title }}</h4>
-              <p class="card-text">{{ dish.description }}</p>
-              <a href="/addtocart1/" btn btn-danger">В корзину</a>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-        </section>
-      {% endfor %}
-      -->
+    </section>
     {% for cat in category %}
       <section>
       <h3 class="my-4">{{ cat.name }}</h3>
@@ -41,7 +22,7 @@
             <div class="card-body">
               <h4 class="h5 card-title">{{ dish.title }}</h4>
               <p class="card-text">{{ dish.description }}</p>
-              <a href="/addtocart1/" btn btn-danger">В корзину</a>
+              <a href="/addtocart/{{ dish.id }}/" btn btn-danger">В корзину</a>
             </div>
           </div>
         </div>
