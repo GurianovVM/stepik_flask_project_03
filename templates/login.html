@@ -9,7 +9,7 @@
             <h1 class="h3 mb-3 font-weight-normal">Stepik delivery</h1>
             <p class="h5 font-weight-light">Войдите, чтобы управлять</p>
           </div>
-          <form method="POST" action="{{ url_for('cart') }}">
+          <form method="POST" action="{{ url_for('login') }}">
           {{ form.csrf_token }}
           <div class="mt-5 form-label-group">
             {{ form.email.label(class_="text-muted") }}

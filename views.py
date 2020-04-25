@@ -1,4 +1,4 @@
-from flask import render_template, redirect, session
+from flask import render_template, redirect, session, request
 from sqlalchemy.sql.expression import func
 from werkzeug.security import check_password_hash
 
@@ -55,8 +55,10 @@ def cart():
     flag_login = session.get('login', False)
     if form.validate_on_submit():
         return redirect('/ordered/')
+    client_data = [session.get('client_name', ''), session.get('client_address', ''),
+                        session.get('client_email', ''), session.get('client_phone', '')]
     return render_template('cart.html', count_cart=count_dish_nav(), form=form, dish_list=dish_list, flag_del=flag_del,
-                           flag_login=flag_login)
+                           flag_login=flag_login, client_data=client_data)
 
 @app.route('/cart/del/<dish_id>')
 def cart_del_dish(dish_id):
@@ -79,9 +81,14 @@ def login():
         password = form.password.data
         client = db.session.query(Client).filter(Client.email == email).first()
         if check_password_hash(client.password, password):
+            session['client_id'] = client.id
+            session['client_name'] = client.name
+            session['client_email'] = client.email
+            session['client_address'] = client.address
+            session['client_phone'] = client.phone
             return redirect('/account/')
         else:
-            render_template('login.html', form=form, message='Неверный логин или пароль')
+            return render_template('login.html', form=form, message='Неверный логин или пароль')
     return render_template('login.html', form=form)
 
 
